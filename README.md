@@ -1,3 +1,1 @@
-# 4-7-8 Breathing Exercise App
-
-A simple Next.js application for guided 4-7-8 breathing technique.
+IyA0LTctOCBCcmVhdGhpbmcgRXhlcmNpc2UgQXBwCgpBIHNpbXBsZSBOZXh0LmpzIGFwcGxpY2F0aW9uIGZvciBndWlkZWQgNC03LTggYnJlYXRoaW5nIHRlY2huaXF1ZS4=
