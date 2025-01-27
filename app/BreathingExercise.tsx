@@ -8,7 +8,7 @@ export default function BreathingExercise() {
   const [countdown, setCountdown] = useState(0);
 
   const breathingStages = {
-    prepare: { text: 'Get Ready', duration: 3, nextStage: 'inhale' },
+    prepare: { text: 'Get Ready', duration: 5, nextStage: 'inhale' },
     inhale: { text: 'Inhale', duration: 4, nextStage: 'hold' },
     hold: { text: 'Hold', duration: 7, nextStage: 'exhale' },
     exhale: { text: 'Exhale', duration: 8, nextStage: 'prepare' }
@@ -19,8 +19,9 @@ export default function BreathingExercise() {
       if (countdown > 1) {
         setCountdown(countdown - 1);
       } else {
-        setStage(breathingStages[stage].nextStage as 'prepare' | 'inhale' | 'hold' | 'exhale');
-        setCountdown(breathingStages[stage].duration);
+        const nextStage = breathingStages[stage].nextStage as 'prepare' | 'inhale' | 'hold' | 'exhale';
+        setStage(nextStage);
+        setCountdown(breathingStages[nextStage].duration);
       }
     }, 1000);
 
@@ -45,7 +46,8 @@ export default function BreathingExercise() {
       animate={{ opacity: 1 }}
     >
       <div className="text-center">
-        <h1 className="text-4xl font-bold mb-8">4-7-8 Breathing Exercise</h1>
+        <h1 className="text-4xl font-bold mb-8">4-7-8 Breathing Method</h1>
+        <p className='text m-4'>Just follow the prompts, try to clear your mind.</p>
         <motion.div
           key={stage}
           initial={{ opacity: 0, scale: 0.9 }}
