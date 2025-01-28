@@ -128,7 +128,7 @@ export default function BreathingExercise() {
       <div className="absolute flex flex-col items-center text-center px-4">
         {/* Conditionally Render the <h1> Only When Paused */}
         {isPaused && (
-          <h1 className="text-4xl font-bold mb-4 text-gray-800">4-7-8 Breathing Method</h1>
+          <h1 className="text-4xl font-bold mb-4 text-gray-800">4-7-8 Breathing</h1>
         )}
         
         {/* Conditionally Render the <p> Tag Only During 'prepare' Stage */}
@@ -151,7 +151,7 @@ export default function BreathingExercise() {
         </motion.div>
         
         <div className="text-5xl font-bold mb-8 text-gray-900">{countdown}</div>
-        
+            
         <div className="flex justify-center space-x-6">
           {/* Pause/Resume Button with Bootstrap Icons and Tooltip */}
           <button
