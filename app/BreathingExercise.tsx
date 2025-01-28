@@ -62,7 +62,7 @@ export default function BreathingExercise() {
       controls.stop(); // Stop any ongoing animation when paused
     }
 
-    // Cleanup function to stop animations when component unmounts or dependencies change
+    // Cleanup function to stop animations when component unmounts or stage changes
     return () => {
       controls.stop();
     };
@@ -115,18 +115,28 @@ export default function BreathingExercise() {
         variants={circleVariants}
         animate={controls}
         initial="prepare"
-        className="w-4/5 h-4/5 max-w-4xl max-h-4xl rounded-full bg-white bg-opacity-20 flex items-center justify-center shadow-lg"
+        className="w-4/5 h-4/5 max-w-4xl max-h-4xl rounded-full bg-white bg-opacity-20 flex items-center justify-center shadow-lg p-4"
       >
         {/* Optional: Add a subtle inner circle or gradient */}
+        <motion.div
+          className="w-3/4 h-3/4 rounded-full bg-white bg-opacity-30"
+          // No animation needed; remains static
+        ></motion.div>
       </motion.div>
 
       {/* Main Content */}
       <div className="absolute flex flex-col items-center text-center px-4">
         <h1 className="text-4xl font-bold mb-4 text-gray-800">4-7-8 Breathing Method</h1>
+        
         {/* Conditionally Render the <p> Tag Only During 'prepare' Stage */}
         {stage === 'prepare' && (
-          <p className='text-lg mb-8 text-gray-600'>Just follow the prompts, try to clear your mind.</p>
+          <div className="w-3/4 sm:w-2/3 md:w-1/2">
+            <p className='text-base sm:text-lg mb-8 text-gray-600 break-words'>
+              Just follow the prompts, try to clear your mind.
+            </p>
+          </div>
         )}
+        
         <motion.div
           key={stage}
           initial={{ opacity: 0, y: -10 }}
@@ -136,20 +146,22 @@ export default function BreathingExercise() {
         >
           {breathingStages[stage].text}
         </motion.div>
+        
         <div className="text-5xl font-bold mb-8 text-gray-900">{countdown}</div>
+        
         <div className="flex justify-center space-x-6">
           {/* Pause/Resume Button with Bootstrap Icons and Tooltip */}
           <button
             onClick={() => setIsPaused(prev => !prev)}
-            className="p-3 text-indigo-500 hover:text-indigo-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 relative group"
+            className="p-5 text-gray-500 hover:text-gray-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400 relative group"
             aria-label={isPaused ? 'Resume Countdown' : 'Pause Countdown'}
           >
             {isPaused ? (
               // Play Icon
-              <i className="bi bi-play-fill h-6 w-6"></i>
+              <i className="bi bi-play-fill h-8 w-8"></i>
             ) : (
               // Pause Icon
-              <i className="bi bi-pause-fill h-6 w-6"></i>
+              <i className="bi bi-pause-fill h-8 w-8"></i>
             )}
             {/* Tooltip */}
             <span className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -160,11 +172,11 @@ export default function BreathingExercise() {
           {/* Reset Button with Bootstrap Icon and Tooltip */}
           <button
             onClick={resetBreathing}
-            className="p-3 text-red-500 hover:text-red-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-red-400 relative group"
+            className="p-5 text-gray-500 hover:text-gray-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400 relative group"
             aria-label="Reset Countdown"
           >
             {/* Reset Icon */}
-            <i className="bi bi-arrow-clockwise h-6 w-6"></i>
+            <i className="bi bi-arrow-clockwise h-8 w-8"></i>
             {/* Tooltip */}
             <span className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Reset
