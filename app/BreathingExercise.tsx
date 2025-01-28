@@ -16,7 +16,7 @@ export default function BreathingExercise() {
   // State declarations
   const [stage, setStage] = useState<'prepare' | 'inhale' | 'hold' | 'exhale'>('prepare');
   const [countdown, setCountdown] = useState(breathingStages['prepare'].duration);
-  const [isPaused, setIsPaused] = useState(false); // State for pause functionality
+  const [isPaused, setIsPaused] = useState(true); // Set default to true (paused)
 
   const controls = useAnimation(); // Controls for animating the breathing circle
 
@@ -91,8 +91,8 @@ export default function BreathingExercise() {
   const resetBreathing = () => {
     setStage('prepare');
     setCountdown(breathingStages['prepare'].duration);
-    setIsPaused(false);
-    controls.start('prepare'); // Start the 'prepare' animation
+    setIsPaused(true); // Ensure it resets to paused
+    controls.start('hold'); // Start the 'hold' animation to keep the circle static
   };
 
   const stageColors = {
@@ -114,7 +114,7 @@ export default function BreathingExercise() {
       <motion.div
         variants={circleVariants}
         animate={controls}
-        initial="prepare"
+        initial="hold" // Initialize with 'hold' to keep the circle static
         className="w-4/5 h-4/5 max-w-4xl max-h-4xl rounded-full bg-white bg-opacity-20 flex items-center justify-center shadow-lg p-4"
       >
         {/* Optional: Add a subtle inner circle or gradient */}
@@ -126,10 +126,13 @@ export default function BreathingExercise() {
 
       {/* Main Content */}
       <div className="absolute flex flex-col items-center text-center px-4">
-        <h1 className="text-4xl font-bold mb-4 text-gray-800">4-7-8 Breathing Method</h1>
+        {/* Conditionally Render the <h1> Only When Paused */}
+        {isPaused && (
+          <h1 className="text-4xl font-bold mb-4 text-gray-800">4-7-8 Breathing Method</h1>
+        )}
         
         {/* Conditionally Render the <p> Tag Only During 'prepare' Stage */}
-        {stage === 'prepare' && (
+        {stage === 'prepare' && isPaused && (
           <div className="w-3/4 sm:w-2/3 md:w-1/2">
             <p className='text-base sm:text-lg mb-8 text-gray-600 break-words'>
               Just follow the prompts, try to clear your mind.
@@ -153,18 +156,18 @@ export default function BreathingExercise() {
           {/* Pause/Resume Button with Bootstrap Icons and Tooltip */}
           <button
             onClick={() => setIsPaused(prev => !prev)}
-            className="p-5 text-gray-500 hover:text-gray-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400 relative group"
+            className="p-6 text-gray-500 hover:text-gray-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 relative group"
             aria-label={isPaused ? 'Resume Countdown' : 'Pause Countdown'}
           >
             {isPaused ? (
               // Play Icon
-              <i className="bi bi-play-fill h-8 w-8"></i>
+              <i className="bi bi-play-fill h-10 w-10"></i>
             ) : (
               // Pause Icon
-              <i className="bi bi-pause-fill h-8 w-8"></i>
+              <i className="bi bi-pause-fill h-10 w-10"></i>
             )}
             {/* Tooltip */}
-            <span className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <span className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-3 py-1 bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               {isPaused ? 'Resume' : 'Pause'}
             </span>
           </button>
@@ -172,13 +175,13 @@ export default function BreathingExercise() {
           {/* Reset Button with Bootstrap Icon and Tooltip */}
           <button
             onClick={resetBreathing}
-            className="p-5 text-gray-500 hover:text-gray-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400 relative group"
+            className="p-6 text-gray-500 hover:text-gray-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 relative group"
             aria-label="Reset Countdown"
           >
             {/* Reset Icon */}
-            <i className="bi bi-arrow-clockwise h-8 w-8"></i>
+            <i className="bi bi-arrow-clockwise h-10 w-10"></i>
             {/* Tooltip */}
-            <span className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <span className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-3 py-1 bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Reset
             </span>
           </button>
