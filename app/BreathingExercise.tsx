@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import { Variants, motion, useAnimation } from 'framer-motion';
 import 'bootstrap-icons/font/bootstrap-icons.css'; // Ensure Bootstrap Icons CSS is imported
 
 export default function BreathingExercise() {
@@ -21,7 +21,7 @@ export default function BreathingExercise() {
   const controls = useAnimation(); // Controls for animating the breathing circle
 
   // Animation variants for the breathing circle
-  const circleVariants = {
+  const circleVariants: Variants = {
     prepare: {
       scale: [0.95, 1.05, 0.95], // Gentle pulsing
       transition: {
@@ -57,12 +57,12 @@ export default function BreathingExercise() {
   // Update breathing circle animation based on stage and pause state
   useEffect(() => {
     if (!isPaused) {
-      controls.start(circleVariants[stage]);
+      controls.start(stage); // Start animation based on variant name
     } else {
       controls.stop(); // Stop any ongoing animation when paused
     }
 
-    // Cleanup function to stop animations when component unmounts or stage changes
+    // Cleanup function to stop animations when component unmounts or dependencies change
     return () => {
       controls.stop();
     };
@@ -92,7 +92,7 @@ export default function BreathingExercise() {
     setStage('prepare');
     setCountdown(breathingStages['prepare'].duration);
     setIsPaused(false);
-    controls.start(circleVariants['prepare']);
+    controls.start('prepare'); // Start the 'prepare' animation
   };
 
   const stageColors = {
@@ -114,6 +114,7 @@ export default function BreathingExercise() {
       <motion.div
         variants={circleVariants}
         animate={controls}
+        initial="prepare"
         className="w-4/5 h-4/5 max-w-4xl max-h-4xl rounded-full bg-white bg-opacity-20 flex items-center justify-center shadow-lg"
       >
         {/* Optional: Add a subtle inner circle or gradient */}
